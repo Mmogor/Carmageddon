@@ -1,0 +1,38 @@
+libs/
+
+assets/
+    images/
+    sounds/
+    levels/
+    fonts/
+
+utils/
+    math.py
+    asset_loader.py
+
+entities/
+    car.py
+    street.py       # the object to be displayed
+    lane.py         # to and from / direction on the street (vectors)
+    junction.py
+    house.py
+
+a_star/
+    graph.py        # saves nodes (=junctions and houses) in a graph
+    node.py         # node for A*
+    a_star.py       # A* Algorithm
+
+game/
+    game.py         # the game loop
+    camera.py       # the view
+    renderer.py     # combines ui and camera
+    scene.py        # manages objects
+
+ui/
+    ui.py           # game overlay
+    menu.py         # options
+    start.py        # start menu
+    pause.py        # by pressing ESC during game
+
+config.py           # settings
+main.py             # set up and starts game loop
