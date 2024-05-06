@@ -1,5 +1,6 @@
 import pygame
 
+import config
 from .renderer import Renderer
 
 
@@ -8,22 +9,26 @@ class Game:
         self.clock = pygame.time.Clock()
         self.running = True
         self.render_grid = False
+        self.runtime = 0
 
     def start_game(self, screen: pygame.Surface):
         while self.running:
+            self.runtime += self.clock.get_time()
             renderer = Renderer(screen)
 
-            screen.fill("darkgreen")
+            screen.fill(config.BACKGROUND_COLOR)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    self.render_grid = not self.render_grid
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_TAB:
+                        self.render_grid = not self.render_grid
 
             if self.render_grid:
                 renderer.render_grid()
 
-            pygame.display.flip()
+            renderer.update(self.runtime)
 
-            self.clock.tick(60)
+            pygame.display.update()
+            self.clock.tick(config.FRAME_RATE)
