@@ -1,6 +1,8 @@
 import pygame
 
 import config
+from entities.house import House
+from utils.assets import house_img
 from .renderer import Renderer
 
 
@@ -29,6 +31,9 @@ class Game:
                 renderer.render_grid()
 
             renderer.update(self.runtime)
+
+            house = House(screen, house_img, 0, 0)
+            house.draw()
 
             pygame.display.update()
             self.clock.tick(config.FRAME_RATE)
