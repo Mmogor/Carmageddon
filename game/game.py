@@ -11,11 +11,11 @@ class Game:
         self.clock = pygame.time.Clock()
         self.running = True
         self.render_grid = False
-        self.runtime = 0
+        self.runtime = config.HOUSE_SPAWN_RATE
+        self.houses = []
 
     def start_game(self, screen: pygame.Surface):
         while self.running:
-            self.runtime += self.clock.get_time()
             renderer = Renderer(screen)
 
             screen.fill(config.BACKGROUND_COLOR)
@@ -30,10 +30,10 @@ class Game:
             if self.render_grid:
                 renderer.render_grid()
 
-            renderer.update(self.runtime)
-
-            house = House(screen, house_img, 0, 0)
-            house.draw()
+            renderer.update(self, self.runtime, self.houses)
 
             pygame.display.update()
-            self.clock.tick(config.FRAME_RATE)
+            self.runtime += self.clock.tick(config.FRAME_RATE)
+
+    def reset_runtime(self):
+        self.runtime = 0
