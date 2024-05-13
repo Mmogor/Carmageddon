@@ -3,6 +3,7 @@ import random
 import pygame
 
 import config
+from ui import ui
 from entities.house import House
 from game import scene
 from utils.assets import house_img
@@ -24,6 +25,9 @@ class Renderer:
 
     def update(self, game, runtime, houses):
         self.scene.update(game, self.screen, runtime, houses)
+
+        if  len(houses) < config.MAX_HOUSES:
+            ui.render_spawn_timer(runtime, self.screen)
 
         for house in houses:
             house.draw()

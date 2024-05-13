@@ -10,7 +10,7 @@ class Scene:
         pass
 
     def update(self, game, screen, runtime, houses):
-        if len(houses) < 10 and runtime >= config.HOUSE_SPAWN_RATE:
+        if len(houses) < config.MAX_HOUSES and runtime >= config.HOUSE_SPAWN_RATE:
             for i in (1, 2):
                 find_x_y = True
                 while find_x_y:
