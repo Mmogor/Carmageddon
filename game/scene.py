@@ -1,15 +1,33 @@
 import random
 
+import pygame
+
 import config
+from entities import street
 from entities.house import House
+from entities.street import Street
 from utils.assets import house_img
+from utils.assets import street_img
+
 
 
 class Scene:
     def __init__(self):
         pass
 
-    def update(self, game, screen, runtime, houses):
+    def update(self, game, screen, runtime, houses, streets):
+        street_counter = 10
+        if str(60 - (runtime // 1000)) == 0:
+            street_counter += 10
+
+        if pygame.mouse.get_pressed()[0] == 1 and street_counter > 0:
+            pos = pygame.mouse.get_pos()
+            street.x = pos[0]
+            street.y = pos[1]
+            street_counter -= 1
+            print(street_counter)
+            streets.append(Street(screen, street_img, pos[0] - pos[0] % 50, pos[1] - pos[1] % 50))
+
         if len(houses) < config.MAX_HOUSES and runtime >= config.HOUSE_SPAWN_RATE:
             for i in (1, 2):
                 find_x_y = True

@@ -2,6 +2,7 @@ import pygame
 
 import config
 from entities.house import House
+from entities.street import Street
 from utils.assets import house_img
 from .renderer import Renderer
 
@@ -13,6 +14,7 @@ class Game:
         self.render_grid = False
         self.runtime = config.HOUSE_SPAWN_RATE
         self.houses = []
+        self.street = []
 
     def start_game(self, screen: pygame.Surface):
         while self.running:
@@ -30,7 +32,7 @@ class Game:
             if self.render_grid:
                 renderer.render_grid()
 
-            renderer.update(self, self.runtime, self.houses)
+            renderer.update(self, self.runtime, self.houses, self.street)
 
             pygame.display.update()
             self.runtime += self.clock.tick(config.FRAME_RATE)
