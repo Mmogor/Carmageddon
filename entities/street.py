@@ -1,4 +1,4 @@
-# from utils.assets import corner_img, junction_img, t_junction_img
+from utils.assets import corner_img, junction_img, t_junction_img
 import pygame
 
 
@@ -19,16 +19,20 @@ class Street:
         else:
             self.screen.blit(self.img, (self.offset + self.x, self.y))
 
-    def upgrade(self):
+    def upgrade_to_corner(self):
         if not self.c:
             self.c = True
             # self.img = corner_img
             print("corner")
-        elif self.c and not self.j:
+
+    def upgrade_to_t_junction(self):
+        if self.c and not self.j:
             self.j = True
             # self.img = t_junction_img
             print("t_junction")
-        elif self.c and self.j:
+
+    def upgrade_to_junction(self):
+        if self.c and self.j:
             # self.img = junction_img
             print("junction")
 
