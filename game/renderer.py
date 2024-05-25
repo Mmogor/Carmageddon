@@ -24,6 +24,10 @@ class Renderer:
             pygame.draw.line(self.screen, config.GRID_COLOR, (0, config.GRID_SIZE * i),
                              (config.SCREEN_WIDTH, config.GRID_SIZE * i))
 
+    def add_street(self, screen, runtime, street, x, y):
+        self.scene.add_street(screen, runtime, street, x, y)
+
+
     def update(self, game, runtime, houses, streets):
         self.scene.update(game, self.screen, runtime, houses, streets)
 

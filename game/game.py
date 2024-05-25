@@ -28,6 +28,8 @@ class Game:
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_TAB:
                         self.render_grid = not self.render_grid
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    renderer.add_street(screen, self.runtime, self.street, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
 
             if self.render_grid:
                 renderer.render_grid()
