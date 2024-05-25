@@ -20,6 +20,7 @@ class Scene:
             x -= x % 50
             y -= y % 50
 
+            _r = False
             valid = True
             for st in streets:
                 if st.x == x and st.y == y:
@@ -30,18 +31,18 @@ class Scene:
                 street = Street(screen, street_img, x, y)
                 for house in houses:
                     if house.y == y and (house.x + 50 == x or house.x - 50 == x):
-                        street.rotate()
+                        _r = True
                         house.add_street(street)
                     elif house.x == x and (house.y + 50 == y or house.y - 50 == y):
                         house.add_street(street)
 
+                for st in streets:
+                    if st.y == y and (st.x + 50 == x or st.x - 50 == x):
+                        if st.r:
+                            _r = True
 
-
-                # for st in street:
-                #     if st.x == x + 50 and st.y == y:
-                #         st.upgrade()
-                #     elif st.x == x - 50 and st.y == y:
-                #         st.upgrade()
+                if _r:
+                    street.rotate()
 
                 streets.append(street)
 
