@@ -1,13 +1,8 @@
-import random
-
 import pygame
 
 import config
-from ui import ui
-from entities.house import House
-from entities.street import Street
 from game import scene
-from utils.assets import house_img
+from ui import ui
 
 
 class Renderer:
@@ -24,14 +19,13 @@ class Renderer:
             pygame.draw.line(self.screen, config.GRID_COLOR, (0, config.GRID_SIZE * i),
                              (config.SCREEN_WIDTH, config.GRID_SIZE * i))
 
-    def add_street(self, screen, runtime, street, x, y):
-        self.scene.add_street(screen, runtime, street, x, y)
-
+    def add_street(self, screen, runtime, street, houses, x, y):
+        self.scene.add_street(screen, runtime, street, houses, x, y)
 
     def update(self, game, runtime, houses, streets):
         self.scene.update(game, self.screen, runtime, houses, streets)
 
-        if  len(houses) < config.MAX_HOUSES:
+        if len(houses) < config.MAX_HOUSES:
             ui.render_spawn_timer(runtime, self.screen)
 
         for house in houses:

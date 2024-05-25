@@ -1,9 +1,6 @@
 import pygame
 
 import config
-from entities.house import House
-from entities.street import Street
-from utils.assets import house_img
 from .renderer import Renderer
 
 
@@ -29,7 +26,7 @@ class Game:
                     if event.key == pygame.K_TAB:
                         self.render_grid = not self.render_grid
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    renderer.add_street(screen, self.runtime, self.street, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+                    renderer.add_street(screen, self.runtime, self.street, self.houses, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
 
             if self.render_grid:
                 renderer.render_grid()
