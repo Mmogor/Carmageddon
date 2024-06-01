@@ -12,6 +12,7 @@ class Game:
         self.runtime = config.HOUSE_SPAWN_RATE
         self.houses = []
         self.street = []
+        self.street_counter = 10
 
     def start_game(self, screen: pygame.Surface):
         while self.running:
@@ -26,7 +27,9 @@ class Game:
                     if event.key == pygame.K_TAB:
                         self.render_grid = not self.render_grid
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    renderer.add_street(screen, self.runtime, self.street, self.houses, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+                    #renderer.add_street(screen, self.runtime, self.street, self.houses, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
+                    renderer.add_street(screen, self.runtime, self.street, self.houses, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], self)
+
 
             if self.render_grid:
                 renderer.render_grid()

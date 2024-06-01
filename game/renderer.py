@@ -19,14 +19,16 @@ class Renderer:
             pygame.draw.line(self.screen, config.GRID_COLOR, (0, config.GRID_SIZE * i),
                              (config.SCREEN_WIDTH, config.GRID_SIZE * i))
 
-    def add_street(self, screen, runtime, street, houses, x, y):
-        self.scene.add_street(screen, runtime, street, houses, x, y)
+    def add_street(self, screen, runtime, street, houses, x, y, game):
+        self.scene.add_street(screen, runtime, street, houses, x, y, game)
 
     def update(self, game, runtime, houses, streets):
         self.scene.update(game, self.screen, runtime, houses, streets)
 
         if len(houses) < config.MAX_HOUSES:
             ui.render_spawn_timer(runtime, self.screen)
+
+        ui.streets_left_counter(game.street_counter, self.screen)
 
         for house in houses:
             house.draw()
