@@ -4,7 +4,7 @@ import config
 from objects.car import Car
 from objects.house import House
 from objects.street import Street
-from utils.assets import house_red_img, car_red_img
+from utils.assets import house_red_img, car_red_img, house_blue_img, car_blue_img
 from utils.assets import street_img
 
 
@@ -111,23 +111,23 @@ class Scene:
                         if street.x == x and street.y == y:
                             find_x_y = True
 
-                houses.append(House(screen, house_red_img, color, x, y))
+                houses.append(House(screen, color, x, y))
 
                 for street in streets:
                     street.check()
 
                 game.reset_runtime()
 
-            if runtime % 5000 >= 1985:
-                if houses:
-                    house = random.choice(houses)
-                    if house.streets:
-                        street = random.choice(house.streets)
-                        car = Car(screen, car_red_img, house.color, house, random.choice(houses), street.x, street.y, street.r, house.x, house.y)
-                        cars.append(car)
+        if runtime % 5000 >= 4985:
+            if houses:
+                house = random.choice(houses)
+                if house.streets:
+                    street = random.choice(house.streets)
+                    car = Car(screen, car_red_img, house.color, house, random.choice(houses), street.x, street.y, street.r, house.x, house.y)
+                    cars.append(car)
 
-        for car in cars:
-            car.move()
+        #for car in cars:
+        #    car.move()
 
     def remove_street(self, streets, houses, cars, x, y, game):
         x -= x % config.GRID_SIZE
