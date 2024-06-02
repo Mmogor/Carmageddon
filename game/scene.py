@@ -4,7 +4,7 @@ import config
 from objects.car import Car
 from objects.house import House
 from objects.street import Street
-from utils.assets import house_red_img, car_red_img
+from utils.assets import house_red_img, car_red_img, house_blue_img, car_blue_img
 from utils.assets import street_img
 
 
