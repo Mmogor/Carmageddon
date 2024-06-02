@@ -2,14 +2,13 @@ import random
 
 import pygame
 
-from objects.car import Car
-
 
 class House:
-    def __init__(self, screen, img, x, y):
+    def __init__(self, screen, img, color, x, y):
         zahlen = [0, 90, 180, 270]
         self.screen = screen
         self.img = pygame.transform.rotate(img, random.choice(zahlen))
+        self.color = color
         self.offset = 2
         self.x = x
         self.y = y
