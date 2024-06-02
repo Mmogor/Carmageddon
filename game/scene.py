@@ -122,7 +122,7 @@ class Scene:
                 house = random.choice(houses)
                 if house.streets:
                     street = random.choice(house.streets)
-                    car = Car(screen, car_img, street.x, street.y, street.r)
+                    car = Car(screen, car_img, street.x, street.y, street.r, house.x, house.y)
                     cars.append(car)
 
     def remove_street(self, streets, houses, cars, x, y, game):
