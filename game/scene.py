@@ -1,19 +1,17 @@
 import random
 
 import config
+from objects.car import Car
 from objects.house import House
 from objects.street import Street
-from utils.assets import house_img
-from utils.assets import car_img
+from utils.assets import house_img, car_img
 from utils.assets import street_img
-
-street_counter = 0
 
 
 class Scene:
 
     def __init__(self):
-        self.last_car_spawn_time = 0
+        pass
 
     def add_street(self, screen, runtime, streets, houses, x, y, game):
         if game.street_counter > 0:
@@ -31,69 +29,67 @@ class Scene:
                 if house.x == x and house.y == y:
                     valid = False
 
+            if valid:
+                game.street_counter -= 1
+                street = Street(screen, street_img, x, y)
 
-        if valid:
-            game.street_counter -= 1
-            street = Street(screen, street_img, x, y)
-
-            for house in houses:
-                if house.y == y:
-                    if house.x + config.GRID_SIZE == x:
-                        house.add_street(street)
-                        street.add_left(house)
-                    elif house.x - config.GRID_SIZE == x:
-                        house.add_street(street)
-                        street.add_right(house)
-                elif house.x == x:
-                    if house.y + config.GRID_SIZE == y:
-                        house.add_street(street)
-                        street.add_top(house)
-                    elif house.y - config.GRID_SIZE == y:
-                        house.add_street(street)
-                        street.add_bottom(house)
-
-
-            for st in streets:
-                if st.y == y:
-                    if st.x + config.GRID_SIZE == x:
-                        if st.r:
+                for house in houses:
+                    if house.y == y:
+                        if house.x + config.GRID_SIZE == x:
                             _r = True
-                        st.add_right(street)
-                        street.add_left(st)
-                    if st.x - config.GRID_SIZE == x:
-                        if st.r:
+                            house.add_street(street)
+                            street.add_left(house)
+                        elif house.x - config.GRID_SIZE == x:
                             _r = True
-                        st.add_left(street)
-                        street.add_right(st)
-                if st.x == x:
-                    if st.y + config.GRID_SIZE == y:
-                        st.add_bottom(street)
-                        street.add_top(st)
-                    if st.y - config.GRID_SIZE == y:
-                        st.add_top(street)
-                        street.add_bottom(st)
+                            house.add_street(street)
+                            street.add_right(house)
+                    elif house.x == x:
+                        if house.y + config.GRID_SIZE == y:
+                            house.add_street(street)
+                            street.add_top(house)
+                        elif house.y - config.GRID_SIZE == y:
+                            house.add_street(street)
+                            street.add_bottom(house)
 
-            if _r:
-                street.rotate(1)
+                for st in streets:
+                    if st.y == y:
+                        if st.x + config.GRID_SIZE == x:
+                            if st.r:
+                                _r = True
+                            st.add_right(street)
+                            street.add_left(st)
+                        if st.x - config.GRID_SIZE == x:
+                            if st.r:
+                                _r = True
+                            st.add_left(street)
+                            street.add_right(st)
+                    if st.x == x:
+                        if st.y + config.GRID_SIZE == y:
+                            st.add_bottom(street)
+                            street.add_top(st)
+                        if st.y - config.GRID_SIZE == y:
+                            st.add_top(street)
+                            street.add_bottom(st)
 
-            street.check()
+                if _r:
+                    street.rotate(1)
 
-            if street.top is not None and type(street.top) is Street:
-                street.top.check()
-            if street.bottom is not None and type(street.bottom) is Street:
-                street.bottom.check()
-            if street.left is not None and type(street.left) is Street:
-                street.left.check()
-            if street.right is not None and type(street.right) is Street:
-                street.right.check()
+                street.check(streets, houses)
 
-            print(type(street.top), street.bottom, street.left, street.right)
-            streets.append(street)
+                if street.top is not None and type(street.top) is Street:
+                    street.top.check(streets, houses)
+                if street.bottom is not None and type(street.bottom) is Street:
+                    street.bottom.check(streets, houses)
+                if street.left is not None and type(street.left) is Street:
+                    street.left.check(streets, houses)
+                if street.right is not None and type(street.right) is Street:
+                    street.right.check(streets, houses)
 
-    def update(self, game, screen, runtime, houses, streets):
-        global street_counter
+                streets.append(street)
+
+    def update(self, game, screen, runtime, houses, streets, cars):
         if str(60 - (runtime // 1000)) == '0':
-            street_counter += 10
+            game.street_counter += 10
 
         if len(houses) < config.MAX_HOUSES and runtime >= config.HOUSE_SPAWN_RATE:
             for i in (1, 2):
@@ -116,13 +112,50 @@ class Scene:
 
                 houses.append(House(screen, house_img, x, y))
 
+            for street in streets:
+                street.check(streets, houses)
+
             game.reset_runtime()
 
-            if runtime - self.last_car_spawn_time >= 2000:
-                self.spawn_car_at_house(houses, car_img)
-                self.last_car_spawn_time = runtime
+        if runtime % 5000 >= 4985:
+            if houses:
+                house = random.choice(houses)
+                if house.streets:
+                    street = random.choice(house.streets)
+                    car = Car(screen, car_img, street.x, street.y, street.r)
+                    cars.append(car)
 
-    def spawn_car_at_house(self, houses, car_img):
-        if houses:
-            house = random.choice(houses)
-            house.spawn_car(car_img)
+    def remove_street(self, streets, houses, cars, x, y, game):
+        x -= x % config.GRID_SIZE
+        y -= y % config.GRID_SIZE
+
+        for street in streets:
+            if street.x == x and street.y == y:
+                if street.left is not None:
+                    street.left.right = None
+                if street.right is not None:
+                    street.right.left = None
+                if street.top is not None:
+                    street.top.bottom = None
+                if street.bottom is not None:
+                    street.bottom.top = None
+
+                for house in houses:
+                    for st in house.streets:
+                        if st is street:
+                            house.streets.remove(st)
+                            break
+
+                for car in cars:
+                    if car.x == x and car.y == y:
+                        del car
+                        break
+
+                streets.remove(street)
+                del street
+                break
+
+        game.street_counter += 1
+
+        for street in streets:
+            street.check(streets, houses)

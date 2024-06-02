@@ -1,6 +1,7 @@
 import random
 
 import pygame
+
 from objects.car import Car
 
 
@@ -22,7 +23,3 @@ class House:
 
     def add_street(self, street):
         self.streets.append(street)
-
-    def spawn_car(self, car_img):
-        car = Car(self.screen, car_img, self.x, self.y)  # Assuming Car class and car_img are defined
-        self.cars.append(car)

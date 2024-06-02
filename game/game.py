@@ -11,8 +11,9 @@ class Game:
         self.render_grid = False
         self.runtime = config.HOUSE_SPAWN_RATE
         self.houses = []
-        self.street = []
-        self.street_counter = 10
+        self.streets = []
+        self.cars = []
+        self.street_counter = 0
 
     def start_game(self, screen: pygame.Surface):
         while self.running:
@@ -27,14 +28,17 @@ class Game:
                     if event.key == pygame.K_TAB:
                         self.render_grid = not self.render_grid
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    #renderer.add_street(screen, self.runtime, self.street, self.houses, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1])
-                    renderer.add_street(screen, self.runtime, self.street, self.houses, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], self)
-
+                    if event.button == 1:
+                        renderer.add_street(screen, self.runtime, self.streets, self.houses, pygame.mouse.get_pos()[0],
+                                            pygame.mouse.get_pos()[1], self)
+                    elif event.button == 3:
+                        renderer.remove_street(self.streets, self.houses, self.cars, pygame.mouse.get_pos()[0],
+                                               pygame.mouse.get_pos()[1], self)
 
             if self.render_grid:
                 renderer.render_grid()
 
-            renderer.update(self, self.runtime, self.houses, self.street)
+            renderer.update(self, self.runtime, self.houses, self.streets, self.cars)
 
             pygame.display.update()
             self.runtime += self.clock.tick(config.FRAME_RATE)

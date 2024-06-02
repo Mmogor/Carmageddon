@@ -22,16 +22,22 @@ class Renderer:
     def add_street(self, screen, runtime, street, houses, x, y, game):
         self.scene.add_street(screen, runtime, street, houses, x, y, game)
 
-    def update(self, game, runtime, houses, streets):
-        self.scene.update(game, self.screen, runtime, houses, streets)
-
-        if len(houses) < config.MAX_HOUSES:
-            ui.render_spawn_timer(runtime, self.screen)
-
-        ui.streets_left_counter(game.street_counter, self.screen)
+    def update(self, game, runtime, houses, streets, cars):
+        self.scene.update(game, self.screen, runtime, houses, streets, cars)
 
         for house in houses:
             house.draw()
 
         for street in streets:
             street.draw()
+
+        for car in cars:
+            car.draw()
+
+        if len(houses) < config.MAX_HOUSES:
+            ui.render_spawn_timer(runtime, self.screen)
+
+        ui.streets_left_counter(game.street_counter, self.screen)
+
+    def remove_street(self, streets, houses, cars, x, y, game):
+        self.scene.remove_street(streets, houses, cars, x, y, game)
