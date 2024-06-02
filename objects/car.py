@@ -31,5 +31,5 @@ class Car:
     def draw(self):
         self.screen.blit(self.img, (self.offset_x + self.x, self.offset_y + self.y))
 
-    def move(self):
-        a_star.findPath(self._from, self._to, self.x, self.y)
+    #def move(self):
+    #    a_star.findPath(self._from, self._to, self.x, self.y)
