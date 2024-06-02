@@ -74,16 +74,16 @@ class Scene:
                 if _r:
                     street.rotate(1)
 
-                street.check(streets, houses)
+                street.check()
 
                 if street.top is not None and type(street.top) is Street:
-                    street.top.check(streets, houses)
+                    street.top.check()
                 if street.bottom is not None and type(street.bottom) is Street:
-                    street.bottom.check(streets, houses)
+                    street.bottom.check()
                 if street.left is not None and type(street.left) is Street:
-                    street.left.check(streets, houses)
+                    street.left.check()
                 if street.right is not None and type(street.right) is Street:
-                    street.right.check(streets, houses)
+                    street.right.check()
 
                 streets.append(street)
 
@@ -113,7 +113,7 @@ class Scene:
                 houses.append(House(screen, house_img, x, y))
 
             for street in streets:
-                street.check(streets, houses)
+                street.check()
 
             game.reset_runtime()
 
@@ -148,6 +148,7 @@ class Scene:
 
                 for car in cars:
                     if car.x == x and car.y == y:
+                        cars.remove(car)
                         del car
                         break
 
@@ -158,4 +159,4 @@ class Scene:
         game.street_counter += 1
 
         for street in streets:
-            street.check(streets, houses)
+            street.check()
