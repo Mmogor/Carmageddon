@@ -118,16 +118,18 @@ class Scene:
 
                 game.reset_runtime()
 
-            if runtime % 5000 >= 1985:
-                if houses:
-                    house = random.choice(houses)
-                    if house.streets:
-                        street = random.choice(house.streets)
-                        car = Car(screen, car_red_img, house.color, house, random.choice(houses), street.x, street.y, street.r, house.x, house.y)
-                        cars.append(car)
+        if runtime % 5000 >= 4985:
+            if houses:
+                house = random.choice(houses)
+                if house.streets:
+                    street = random.choice(house.streets)
+                    car = Car(screen, car_red_img, house.color, house, random.choice(houses), street.x, street.y,
+                              street.r, street, house.x, house.y)
+                    cars.append(car)
+            print(cars)
 
         for car in cars:
-            car.move()
+            car.move(game)
 
     def remove_street(self, streets, houses, cars, x, y, game):
         x -= x % config.GRID_SIZE

@@ -1,3 +1,5 @@
+import random
+
 import pygame
 
 import config
@@ -14,6 +16,7 @@ class Game:
         self.streets = []
         self.cars = []
         self.street_counter = 0
+        self.score = 0
 
     def start_game(self, screen: pygame.Surface):
         while self.running:
@@ -39,7 +42,6 @@ class Game:
                 renderer.render_grid()
 
             renderer.update(self, self.runtime, self.houses, self.streets, self.cars)
-
             pygame.display.update()
             self.runtime += self.clock.tick(config.FRAME_RATE)
 
