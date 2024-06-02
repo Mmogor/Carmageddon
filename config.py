@@ -1,3 +1,11 @@
+from enum import Enum
+
+
+class Color(Enum):
+    RED = 1
+    BLUE = 2
+
+
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 SCREEN_TITLE = "Carmageddon"

@@ -1,6 +1,5 @@
 import pygame
 
-import config
 from utils.assets import *
 
 
@@ -46,7 +45,7 @@ class Street:
             self.offset_y = 0
             if type(self.right) is Street and not self.right.r:
                 self.right.rotate(1)
-            if type(self.right) is Street and not self.left.r:
+            if type(self.left) is Street and not self.left.r:
                 self.left.rotate(1)
         elif self.top is not None and self.right is not None and self.bottom is not None:
             self.img = t_junction_img
@@ -61,14 +60,14 @@ class Street:
             self.offset_y = 12.5
             if type(self.right) is Street and not self.right.r:
                 self.right.rotate(1)
-            if type(self.right) is Street and not self.left.r:
+            if type(self.left) is Street and not self.left.r:
                 self.left.rotate(1)
         elif self.bottom is not None and self.left is not None and self.top is not None:
             self.img = t_junction_img
             self.rotate(3)
             self.offset_x = 0
             self.offset_y = 0
-            if type(self.right) is Street and not self.left.r:
+            if type(self.left) is Street and not self.left.r:
                 self.left.rotate(1)
         elif self.left is not None and self.top is not None and self.right is not None:
             self.img = t_junction_img
@@ -77,7 +76,7 @@ class Street:
             self.offset_y = 0
             if type(self.right) is Street and not self.right.r:
                 self.right.rotate(1)
-            if type(self.right) is Street and not self.left.r:
+            if type(self.left) is Street and not self.left.r:
                 self.left.rotate(1)
         elif self.top is not None and self.right is not None:
             self.img = corner_img
@@ -97,12 +96,12 @@ class Street:
             self.rotate(2)
             self.offset_x = 0
             self.offset_y = 12.5
-            if type(self.right) is Street and not self.left.r:
+            if type(self.left) is Street and not self.left.r:
                 self.left.rotate(1)
         elif self.left is not None and self.top is not None:
             self.img = corner_img
             self.rotate(1)
             self.offset_x = 0
             self.offset_y = 0
-            if type(self.right) is Street and not self.left.r:
+            if type(self.left) is Street and not self.left.r:
                 self.left.rotate(1)
