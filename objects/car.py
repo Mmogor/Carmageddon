@@ -1,12 +1,12 @@
 import pygame
 
-from utils.assets import car_red_img, car_blue_img
+from utils.assets import car_red_img, car_blue_img, car_purple_img, car_yellow_img
 
 
 class Car:
     def __init__(self, screen, img, color, _from, _to, x, y, r, house_x, house_y, path):
         self.screen = screen
-        self.imgs = [car_red_img, car_blue_img]
+        self.imgs = [car_red_img, car_blue_img, car_yellow_img, car_purple_img]
         self.img = self.imgs[color.value - 1]
         self.color = color
         self._from = _from

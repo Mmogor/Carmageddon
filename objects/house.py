@@ -1,13 +1,14 @@
 import random
 
 import pygame
-from utils.assets import house_red_img, house_blue_img
+
+from utils.assets import house_red_img, house_blue_img, house_purple_img, house_yellow_img
 
 
 class House:
     def __init__(self, screen, color, x, y):
         zahlen = [0, 90, 180, 270]
-        self.img = [house_red_img, house_blue_img]
+        self.img = [house_red_img, house_blue_img, house_yellow_img, house_purple_img]
         self.screen = screen
         self.img = pygame.transform.rotate(self.img[color.value - 1], random.choice(zahlen))
         self.color = color

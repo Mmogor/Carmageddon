@@ -4,6 +4,8 @@ from enum import Enum
 class Color(Enum):
     RED = 1
     BLUE = 2
+    YELLOW = 3
+    PURPLE = 4
 
 
 SCREEN_WIDTH = 800
