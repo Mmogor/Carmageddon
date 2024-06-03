@@ -1,3 +1,4 @@
+import numpy as np
 import pygame
 
 import config
@@ -14,6 +15,14 @@ class Game:
         self.streets = []
         self.cars = []
         self.street_counter = 0
+        self.grid = np.empty((config.SCREEN_HEIGHT // config.GRID_SIZE, config.SCREEN_WIDTH // config.GRID_SIZE),
+                             dtype=int)
+
+        for i in range(0, len(self.grid)):
+            for j in range(0, len(self.grid[i])):
+                self.grid[i][j] = 1
+
+        print(self.grid)
 
     def start_game(self, screen: pygame.Surface):
         while self.running:
@@ -30,15 +39,15 @@ class Game:
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
                         renderer.add_street(screen, self.runtime, self.streets, self.houses, pygame.mouse.get_pos()[0],
-                                            pygame.mouse.get_pos()[1], self)
+                                            pygame.mouse.get_pos()[1], self, self.grid)
                     elif event.button == 3:
                         renderer.remove_street(self.streets, self.houses, self.cars, pygame.mouse.get_pos()[0],
-                                               pygame.mouse.get_pos()[1], self)
+                                               pygame.mouse.get_pos()[1], self, self.grid)
 
             if self.render_grid:
                 renderer.render_grid()
 
-            renderer.update(self, self.runtime, self.houses, self.streets, self.cars)
+            renderer.update(self, self.runtime, self.houses, self.streets, self.cars, self.grid)
 
             pygame.display.update()
             self.runtime += self.clock.tick(config.FRAME_RATE)

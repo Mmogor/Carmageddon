@@ -19,11 +19,11 @@ class Renderer:
             pygame.draw.line(self.screen, config.GRID_COLOR, (0, config.GRID_SIZE * i),
                              (config.SCREEN_WIDTH, config.GRID_SIZE * i))
 
-    def add_street(self, screen, runtime, street, houses, x, y, game):
-        self.scene.add_street(screen, runtime, street, houses, x, y, game)
+    def add_street(self, screen, runtime, street, houses, x, y, game, grid):
+        self.scene.add_street(screen, runtime, street, houses, x, y, game, grid)
 
-    def update(self, game, runtime, houses, streets, cars):
-        self.scene.update(game, self.screen, runtime, houses, streets, cars)
+    def update(self, game, runtime, houses, streets, cars, grid):
+        self.scene.update(game, self.screen, runtime, houses, streets, cars, grid)
 
         for house in houses:
             house.draw()
@@ -39,5 +39,5 @@ class Renderer:
 
         ui.streets_left_counter(game.street_counter, self.screen)
 
-    def remove_street(self, streets, houses, cars, x, y, game):
-        self.scene.remove_street(streets, houses, cars, x, y, game)
+    def remove_street(self, streets, houses, cars, x, y, game, grid):
+        self.scene.remove_street(streets, houses, cars, x, y, game, grid)

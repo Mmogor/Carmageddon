@@ -1,10 +1,11 @@
 import random
 
 import config
+from a_star import a_star
 from objects.car import Car
 from objects.house import House
 from objects.street import Street
-from utils.assets import house_red_img, car_red_img, house_blue_img, car_blue_img
+from utils.assets import car_red_img
 from utils.assets import street_img
 
 
@@ -13,7 +14,7 @@ class Scene:
     def __init__(self):
         pass
 
-    def add_street(self, screen, runtime, streets, houses, x, y, game):
+    def add_street(self, screen, runtime, streets, houses, x, y, game, grid):
         if game.street_counter > 0:
             x -= x % config.GRID_SIZE
             y -= y % config.GRID_SIZE
@@ -86,8 +87,11 @@ class Scene:
                     street.right.check()
 
                 streets.append(street)
+                grid[y // config.GRID_SIZE][x // config.GRID_SIZE] = 0
+                print(grid)
+                print
 
-    def update(self, game, screen, runtime, houses, streets, cars):
+    def update(self, game, screen, runtime, houses, streets, cars, grid):
         if str(60 - (runtime // 1000)) == '0':
             game.street_counter += 10
 
@@ -111,7 +115,11 @@ class Scene:
                         if street.x == x and street.y == y:
                             find_x_y = True
 
-                houses.append(House(screen, color, x, y))
+                house = House(screen, color, x, y)
+                houses.append(house)
+                grid[int(y // config.GRID_SIZE)][int(x // config.GRID_SIZE)] = 0
+                print(grid)
+                print()
 
                 for street in streets:
                     street.check()
@@ -120,16 +128,23 @@ class Scene:
 
         if runtime % 5000 >= 4985:
             if houses:
-                house = random.choice(houses)
-                if house.streets:
-                    street = random.choice(house.streets)
-                    car = Car(screen, car_red_img, house.color, house, random.choice(houses), street.x, street.y, street.r, house.x, house.y)
+                house_from = random.choice(houses)
+                if house_from.streets:
+                    street = random.choice(house_from.streets)
+                    to = house_from
+                    while to is house_from or to.color is not house_from.color:
+                        to = random.choice(houses)
+                    car = Car(screen, car_red_img, house_from.color, house_from, to, street.x, street.y,
+                              street.r, house_from.x, house_from.y,
+                              a_star.a_star((int(house_from.x // 50), int(house_from.y // 50)),
+                                            (int(to.x // 50), int(to.y // 50)), grid))
                     cars.append(car)
+                    print(grid)
 
-        #for car in cars:
-        #    car.move()
+        for car in cars:
+            car.move(cars)
 
-    def remove_street(self, streets, houses, cars, x, y, game):
+    def remove_street(self, streets, houses, cars, x, y, game, grid):
         x -= x % config.GRID_SIZE
         y -= y % config.GRID_SIZE
 
@@ -157,6 +172,12 @@ class Scene:
                         break
 
                 streets.remove(street)
+                for i in range(0, len(grid)):
+                    for j in range(0, len(grid[i])):
+                        grid[i][j] = 1
+
+                print(game.grid)
+                print
                 del street
                 break
 
