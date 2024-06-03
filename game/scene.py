@@ -172,9 +172,7 @@ class Scene:
                         break
 
                 streets.remove(street)
-                for i in range(0, len(grid)):
-                    for j in range(0, len(grid[i])):
-                        grid[i][j] = 1
+                grid[int(street.y // config.GRID_SIZE)][int(street.x // config.GRID_SIZE)] = 1
 
                 print(game.grid)
                 print()

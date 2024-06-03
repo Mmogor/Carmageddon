@@ -25,3 +25,4 @@ class House:
 
     def add_street(self, street):
         self.streets.append(street)
+

@@ -37,9 +37,15 @@ class Game:
         print(self.grid)
 
     def show_title_screen(self, screen: pygame.Surface):
-        play_button_rect = pygame.Rect((self.screen_width // 2 - self.button_width // 2, self.screen_height // 2 - self.button_height // 2 - 120), (self.button_width, self.button_height))
-        how_to_play_button_rect = pygame.Rect((self.screen_width // 2 - self.button_width // 2, self.screen_height // 2 - self.button_height // 2), (self.button_width, self.button_height))
-        quit_button_rect = pygame.Rect((self.screen_width // 2 - self.button_width // 2, self.screen_height // 2 - self.button_height // 2 + 120), (self.button_width, self.button_height))
+        play_button_rect = pygame.Rect(
+            (self.screen_width // 2 - self.button_width // 2, self.screen_height // 2 - self.button_height // 2 - 120),
+            (self.button_width, self.button_height))
+        how_to_play_button_rect = pygame.Rect(
+            (self.screen_width // 2 - self.button_width // 2, self.screen_height // 2 - self.button_height // 2),
+            (self.button_width, self.button_height))
+        quit_button_rect = pygame.Rect(
+            (self.screen_width // 2 - self.button_width // 2, self.screen_height // 2 - self.button_height // 2 + 120),
+            (self.button_width, self.button_height))
 
         showing_title_screen = True
 
@@ -81,7 +87,9 @@ class Game:
             pygame.display.flip()
 
     def show_how_to_play_screen(self, screen: pygame.Surface):
-        back_button_rect = pygame.Rect((self.screen_width // 2 - self.button_width // 2, self.screen_height - self.button_height - 20), (self.button_width, self.button_height))
+        back_button_rect = pygame.Rect(
+            (self.screen_width // 2 - self.button_width // 2, self.screen_height - self.button_height - 20),
+            (self.button_width, self.button_height))
         showing_how_to_play_screen = True
 
         while showing_how_to_play_screen:
@@ -108,7 +116,8 @@ class Game:
 
             for i, instruction in enumerate(instructions):
                 instruction_text = self.button_font.render(instruction, True, self.black)
-                instruction_rect = instruction_text.get_rect(center=(self.screen_width // 2, self.screen_height // 2 + i * 40))
+                instruction_rect = instruction_text.get_rect(
+                    center=(self.screen_width // 2, self.screen_height // 2 + i * 40))
                 screen.blit(instruction_text, instruction_rect)
 
             pygame.draw.rect(screen, self.red, back_button_rect)
