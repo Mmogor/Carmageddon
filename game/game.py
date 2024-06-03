@@ -1,6 +1,9 @@
+import numpy as np
 import pygame
+
 import config
 from .renderer import Renderer
+
 
 class Game:
     def __init__(self):
@@ -23,6 +26,15 @@ class Game:
         self.blue = (0, 0, 255)
         self.font = pygame.font.Font(None, 74)
         self.button_font = pygame.font.Font(None, 50)
+        self.score = 0
+        self.grid = np.empty((config.SCREEN_HEIGHT // config.GRID_SIZE, config.SCREEN_WIDTH // config.GRID_SIZE),
+                             dtype=int)
+
+        for i in range(0, len(self.grid)):
+            for j in range(0, len(self.grid[i])):
+                self.grid[i][j] = 1
+
+        print(self.grid)
 
     def show_title_screen(self, screen: pygame.Surface):
         play_button_rect = pygame.Rect((self.screen_width // 2 - self.button_width // 2, self.screen_height // 2 - self.button_height // 2 - 120), (self.button_width, self.button_height))
@@ -122,15 +134,15 @@ class Game:
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
                         renderer.add_street(screen, self.runtime, self.streets, self.houses, pygame.mouse.get_pos()[0],
-                                            pygame.mouse.get_pos()[1], self)
+                                            pygame.mouse.get_pos()[1], self, self.grid)
                     elif event.button == 3:
                         renderer.remove_street(self.streets, self.houses, self.cars, pygame.mouse.get_pos()[0],
-                                               pygame.mouse.get_pos()[1], self)
+                                               pygame.mouse.get_pos()[1], self, self.grid)
 
             if self.render_grid:
                 renderer.render_grid()
 
-            renderer.update(self, self.runtime, self.houses, self.streets, self.cars)
+            renderer.update(self, self.runtime, self.houses, self.streets, self.cars, self.grid)
 
             pygame.display.update()
             self.runtime += self.clock.tick(config.FRAME_RATE)

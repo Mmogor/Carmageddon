@@ -1,5 +1,5 @@
 import heapq
-from typing import Tuple, List, Dict
+from typing import List, Tuple, Dict
 
 
 def heuristic(a: Tuple[int, int], b: Tuple[int, int]) -> int:
@@ -9,7 +9,6 @@ def heuristic(a: Tuple[int, int], b: Tuple[int, int]) -> int:
 
 def a_star(start: Tuple[int, int], goal: Tuple[int, int], grid: List[List[int]]) -> List[Tuple[int, int]]:
     """Implements the A* algorithm to find the shortest path from start to goal on a grid."""
-    print("astar begin", start, goal)
     open_set = []
     heapq.heappush(open_set, (0, start))
     came_from: Dict[Tuple[int, int], Tuple[int, int]] = {}
@@ -68,16 +67,31 @@ def get_neighbors(pos: Tuple[int, int], grid: List[List[int]]) -> List[Tuple[int
     directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]  # Up, down, left, right
 
     for dx, dy in directions:
-        print(dx, dy)
         nx, ny = x + dx, y + dy
-        print(0 <= ny < len(grid))
-        print(0 <= nx < len(grid[0]))
-        if 0 <= ny < len(grid) and 0 <= nx < len(grid[0]):
-            print(grid[ny][nx] != 1)
-            if 0 <= ny < len(grid) and 0 <= nx < len(grid[0]) and grid[ny][nx] != 1:
-                neighbors.append((nx, ny))
+        if 0 <= nx < len(grid) and 0 <= ny < len(grid[0]) and grid[nx][ny] != 1:
+            neighbors.append((nx, ny))
 
-                # Debug: Neighbor added
-                print(f"Valid neighbor: {nx, ny}")
+            # Debug: Neighbor added
+            print(f"Valid neighbor: {nx, ny}")
 
     return neighbors
+
+
+# Example usage for debugging
+if __name__ == "__main__":
+    grid = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
+    start = (2, 6)
+    goal = (2, 13)
+    path = a_star(start, goal, grid)
+    print("Path found:", path)
