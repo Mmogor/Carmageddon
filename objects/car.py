@@ -2,7 +2,6 @@ import pygame
 
 from utils.assets import car_red_img, car_blue_img
 
-
 class Car:
     def __init__(self, screen, img, color, _from, _to, x, y, r, house_x, house_y, path):
         self.screen = screen
@@ -33,6 +32,7 @@ class Car:
                 self.offset_x = 27
             else:
                 self.offset_x = 13
+
 
     def draw(self):
         self.screen.blit(self.img, (self.offset_x + self.x, self.offset_y + self.y))

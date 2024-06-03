@@ -15,6 +15,7 @@ class Game:
         self.streets = []
         self.cars = []
         self.street_counter = 0
+        self.score = 0
         self.grid = np.empty((config.SCREEN_HEIGHT // config.GRID_SIZE, config.SCREEN_WIDTH // config.GRID_SIZE),
                              dtype=int)
 
