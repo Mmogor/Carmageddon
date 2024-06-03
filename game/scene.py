@@ -126,7 +126,7 @@ class Scene:
 
                 game.reset_runtime()
 
-        if runtime % 5000 >= 4985:
+        if runtime % 2000 >= 1985:
             if houses:
                 house_from = random.choice(houses)
                 if house_from.streets:
@@ -134,12 +134,16 @@ class Scene:
                     to = house_from
                     while to is house_from or to.color is not house_from.color:
                         to = random.choice(houses)
-                    car = Car(screen, car_red_img, house_from.color, house_from, to, street.x, street.y,
-                              street.r, house_from.x, house_from.y,
-                              a_star.a_star((int(house_from.x // 50), int(house_from.y // 50)),
-                                            (int(to.x // 50), int(to.y // 50)), grid))
-                    cars.append(car)
-                    print(grid)
+
+                    path = a_star.a_star((int(house_from.x // 50), int(house_from.y // 50)),
+                                         (int(to.x // 50), int(to.y // 50)), grid)
+
+                    if path:
+                        car = Car(screen, car_red_img, house_from.color, house_from, to, street.x, street.y,
+                                  street.r, house_from.x, house_from.y, path)
+
+                        cars.append(car)
+                        print(grid)
 
         for car in cars:
             car.move(cars, game)
