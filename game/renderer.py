@@ -38,6 +38,7 @@ class Renderer:
             ui.render_spawn_timer(runtime, self.screen)
 
         ui.streets_left_counter(game.street_counter, self.screen)
+        ui.render_score(game.score, self.screen)
 
     def remove_street(self, streets, houses, cars, x, y, game, grid):
         self.scene.remove_street(streets, houses, cars, x, y, game, grid)

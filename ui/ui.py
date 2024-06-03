@@ -12,6 +12,17 @@ def render_spawn_timer(runtime, screen):
     screen.blit(label, (320, 20))
     screen.blit(seconds_left, (490, 20))
 
+
+def render_score(score, screen):
+    my_font = pygame.font.SysFont("Courier", 18)
+
+    label = my_font.render("Score:", 1, config.FONT_COLOR)
+    seconds_left = my_font.render(str(score), 1, config.FONT_COLOR)
+
+    screen.blit(label, (100, 20))
+    screen.blit(seconds_left, (180, 20))
+
+
 def streets_left_counter(streets_counter, screen):
     my_font = pygame.font.SysFont("Courier", 18)
 
@@ -20,4 +31,3 @@ def streets_left_counter(streets_counter, screen):
 
     screen.blit(label, (550, 20))
     screen.blit(streets_left, (750, 20))
-

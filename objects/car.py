@@ -2,6 +2,7 @@ import pygame
 
 from utils.assets import car_red_img, car_blue_img
 
+
 class Car:
     def __init__(self, screen, img, color, _from, _to, x, y, r, house_x, house_y, path):
         self.screen = screen
@@ -33,11 +34,10 @@ class Car:
             else:
                 self.offset_x = 13
 
-
     def draw(self):
         self.screen.blit(self.img, (self.offset_x + self.x, self.offset_y + self.y))
 
-    def move(self, cars):
+    def move(self, cars, game):
         # Check if path exists
         if not self.path:
             return  # No path available
@@ -64,6 +64,7 @@ class Car:
             # Additional check to see if we have reached the final destination
             if self.path_index >= len(self.path):
                 print("Car has reached its final destination.")
+                game.score += 1
                 cars.remove(self)
                 del self
                 return

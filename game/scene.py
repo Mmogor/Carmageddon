@@ -142,7 +142,7 @@ class Scene:
                     print(grid)
 
         for car in cars:
-            car.move(cars)
+            car.move(cars, game)
 
     def remove_street(self, streets, houses, cars, x, y, game, grid):
         x -= x % config.GRID_SIZE
@@ -177,7 +177,7 @@ class Scene:
                         grid[i][j] = 1
 
                 print(game.grid)
-                print
+                print()
                 del street
                 break
 
