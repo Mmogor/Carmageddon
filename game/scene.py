@@ -89,7 +89,7 @@ class Scene:
                 streets.append(street)
                 grid[y // config.GRID_SIZE][x // config.GRID_SIZE] = 0
                 print(grid)
-                print
+                print()
 
     def update(self, game, screen, runtime, houses, streets, cars, grid):
         if str(60 - (runtime // 1000)) == '0':
@@ -126,7 +126,7 @@ class Scene:
 
                 game.reset_runtime()
 
-        if runtime % 2000 >= 1985:
+        if runtime % 500 >= 485:
             if houses:
                 house_from = random.choice(houses)
                 if house_from.streets:
