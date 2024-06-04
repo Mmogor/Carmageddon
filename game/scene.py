@@ -126,7 +126,7 @@ class Scene:
 
                 game.reset_runtime()
 
-        if runtime % 2000 >= 1985:
+        if runtime % 500 >= 485:
             if houses:
                 house_from = random.choice(houses)
                 if house_from.streets:
@@ -139,7 +139,7 @@ class Scene:
                                          (int(to.x // 50), int(to.y // 50)), grid)
 
                     if path:
-                        car = Car(screen, car_red_img, house_from.color, house_from, to, street.x, street.y,
+                        car = Car(screen, car_red_img, house_from.color, house_from, to, house_from.x, house_from.y,
                                   street.r, house_from.x, house_from.y, path)
 
                         cars.append(car)
