@@ -57,7 +57,7 @@ class Car:
             # Additional check to see if we have reached the final destination
             if self.path_index >= len(self.path):
                 print("Car has reached its final destination.")
-                game.score += 1
+                game.score += abs(self._from.x - self._to.x) + abs(self._from.y - self._to.y)
                 cars.remove(self)
                 return
 

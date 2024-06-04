@@ -139,7 +139,7 @@ class Scene:
                                          (int(to.x // 50), int(to.y // 50)), grid)
 
                     if path:
-                        car = Car(screen, car_red_img, house_from.color, house_from, to, street.x, street.y,
+                        car = Car(screen, car_red_img, house_from.color, house_from, to, house_from.x, house_from.y,
                                   street.r, house_from.x, house_from.y, path)
 
                         cars.append(car)
