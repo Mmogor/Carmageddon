@@ -126,7 +126,7 @@ class Scene:
 
                 game.reset_runtime()
 
-        if runtime % 500 >= 485:
+        if runtime % 5000 >= 4850:
             if houses:
                 house_from = random.choice(houses)
                 if house_from.streets:
