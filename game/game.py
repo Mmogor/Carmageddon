@@ -85,6 +85,9 @@ class Game:
             screen.blit(quit_text, quit_text_rect)
 
             pygame.display.flip()
+            self.clock.tick(60)
+
+        self.start_game(screen)
 
     def show_how_to_play_screen(self, screen: pygame.Surface):
         back_button_rect = pygame.Rect(
@@ -128,7 +131,6 @@ class Game:
             pygame.display.flip()
 
     def start_game(self, screen: pygame.Surface):
-        self.show_title_screen(screen)
         while self.running:
             renderer = Renderer(screen)
 
@@ -153,8 +155,69 @@ class Game:
 
             renderer.update(self, self.runtime, self.houses, self.streets, self.cars, self.grid)
 
+            if len(self.houses) == config.MAX_HOUSES:
+                self.render_countdown(screen)
+                if self.runtime >= 120000:
+                    self.running = False
+
             pygame.display.update()
             self.runtime += self.clock.tick(config.FRAME_RATE)
 
+        self.show_game_over_screen(screen)
+
     def reset_runtime(self):
         self.runtime = 0
+
+    def render_countdown(self, screen):
+        my_font = pygame.font.SysFont("Courier", 18)
+
+        label = my_font.render(f"Time left: {str(120 - (self.runtime // 1000))}s", 1, config.FONT_COLOR)
+
+        screen.blit(label, (300, 20))
+
+    def show_game_over_screen(self, screen):
+        restart_button_rect = pygame.Rect(
+            (self.screen_width // 2 - self.button_width // 2 - 30,
+             self.screen_height // 2 - self.button_height // 2 - 60),
+            (self.button_width + 60, self.button_height))
+        quit_button_rect = pygame.Rect(
+            (self.screen_width // 2 - self.button_width // 2, self.screen_height // 2 - self.button_height // 2 + 60),
+            (self.button_width, self.button_height))
+
+        restart = False
+        showing_game_over_screen = True
+
+        while showing_game_over_screen:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running = False
+                    showing_game_over_screen = False
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if restart_button_rect.collidepoint(event.pos):
+                        showing_game_over_screen = False
+                        game = Game()
+                        game.show_title_screen(screen)
+                    elif quit_button_rect.collidepoint(event.pos):
+                        showing_game_over_screen = False
+
+            screen.fill(self.white)
+
+            # Render final score
+            score_text = self.font.render(f"Final Score: {self.score}", True, self.black)
+            score_rect = score_text.get_rect(center=(self.screen_width // 2, self.screen_height // 4))
+            screen.blit(score_text, score_rect)
+
+            # Draw restart button
+            pygame.draw.rect(screen, self.blue, restart_button_rect)
+            restart_text = self.button_font.render("Restart Game", True, self.white)
+            restart_text_rect = restart_text.get_rect(center=restart_button_rect.center)
+            screen.blit(restart_text, restart_text_rect)
+
+            # Draw quit button
+            pygame.draw.rect(screen, self.red, quit_button_rect)
+            quit_text = self.button_font.render("Quit Game", True, self.white)
+            quit_text_rect = quit_text.get_rect(center=quit_button_rect.center)
+            screen.blit(quit_text, quit_text_rect)
+
+            pygame.display.flip()
+            self.clock.tick(60)

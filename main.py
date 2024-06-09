@@ -11,6 +11,6 @@ if __name__ == "__main__":
     main_screen: pygame.surface = pygame.display.set_mode((config.SCREEN_WIDTH, config.SCREEN_HEIGHT), flags, vsync=1)
 
     game = Game()
-    game.start_game(main_screen)
+    game.show_title_screen(main_screen)
 
     pygame.quit()

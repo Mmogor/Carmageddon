@@ -92,11 +92,10 @@ class Scene:
                 print()
 
     def update(self, game, screen, runtime, houses, streets, cars, grid):
-        if str(60 - (runtime // 1000)) == '0':
-            game.street_counter += 10
-
         if len(houses) < config.MAX_HOUSES and runtime >= config.HOUSE_SPAWN_RATE:
             color = random.choice(list(config.Color))
+            xs = []
+            ys = []
             for i in (1, 2):
                 find_x_y = True
                 while find_x_y:
@@ -116,6 +115,8 @@ class Scene:
                             find_x_y = True
 
                 house = House(screen, color, x, y)
+                xs.append(x)
+                ys.append(y)
                 houses.append(house)
                 grid[int(y // config.GRID_SIZE)][int(x // config.GRID_SIZE)] = 0
                 print(grid)
@@ -123,27 +124,29 @@ class Scene:
 
                 for street in streets:
                     street.check()
+            if len(houses) < 10:
+                game.street_counter += int((abs(xs[1] - xs[0]) ** 2 + abs(ys[1] - ys[0]) ** 2) ** 0.5 / 100 * 3)
+            game.reset_runtime()
 
-                game.reset_runtime()
 
-        if runtime % 5000 >= 4850:
+        if runtime % 2000 >= 1980:
             if houses:
-                house_from = random.choice(houses)
-                if house_from.streets:
-                    street = random.choice(house_from.streets)
-                    to = house_from
-                    while to is house_from or to.color is not house_from.color:
-                        to = random.choice(houses)
+                for house_from in houses:
+                    if house_from.streets:
+                        street = random.choice(house_from.streets)
+                        to = house_from
+                        while to is house_from or to.color is not house_from.color:
+                            to = random.choice(houses)
 
-                    path = a_star.a_star((int(house_from.x // 50), int(house_from.y // 50)),
-                                         (int(to.x // 50), int(to.y // 50)), grid)
+                        path = a_star.a_star((int(house_from.x // 50), int(house_from.y // 50)),
+                                             (int(to.x // 50), int(to.y // 50)), grid)
 
-                    if path:
-                        car = Car(screen, car_red_img, house_from.color, house_from, to, house_from.x, house_from.y,
-                                  street.r, house_from.x, house_from.y, path)
+                        if path:
+                            car = Car(screen, car_red_img, house_from.color, house_from, to, house_from.x, house_from.y,
+                                      street.r, house_from.x, house_from.y, path)
 
-                        cars.append(car)
-                        print(grid)
+                            cars.append(car)
+                            print(grid)
 
         for car in cars:
             car.move(cars, game)
