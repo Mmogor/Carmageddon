@@ -1,4 +1,7 @@
 import random
+from typing import Any
+
+import numpy as np
 
 import config
 from a_star import a_star
@@ -12,7 +15,12 @@ from utils.assets import street_img
 class Scene:
 
     def __init__(self):
-        pass
+        self.zero_grid: Any = np.empty((config.SCREEN_HEIGHT // config.GRID_SIZE, config.SCREEN_WIDTH // config.GRID_SIZE),
+                                  dtype=int)
+
+        for i in range(0, len(self.zero_grid)):
+            for j in range(0, len(self.zero_grid[i])):
+                self.zero_grid[i][j] = int(0)
 
     def add_street(self, screen, runtime, streets, houses, x, y, game, grid):
         if game.street_counter > 0:
@@ -124,10 +132,15 @@ class Scene:
 
                 for street in streets:
                     street.check()
-            if len(houses) < 10:
-                game.street_counter += int((abs(xs[1] - xs[0]) ** 2 + abs(ys[1] - ys[0]) ** 2) ** 0.5 / 100 * 3)
-            game.reset_runtime()
+            # game.street_counter += int((abs(xs[1] - xs[0]) ** 2 + abs(ys[1] - ys[0]) ** 2) ** 0.5 / 100 * 3)
+            zero_path = a_star.a_star((int(xs[0] // 50), int(ys[0] // 50)), (int(xs[1] // 50), int(ys[1] // 50)), self.zero_grid)
+            print(self.zero_grid)
+            print(zero_path)
+            for pos in zero_path:
+                if grid[pos[1]][pos[0]] == 1:
+                    game.street_counter += 1
 
+            game.reset_runtime()
 
         if runtime % 2000 >= 1980:
             if houses:

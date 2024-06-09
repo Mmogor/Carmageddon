@@ -10,6 +10,7 @@ def heuristic(a: Tuple[int, int], b: Tuple[int, int]) -> int:
 def a_star(start: Tuple[int, int], goal: Tuple[int, int], grid: List[List[int]]) -> List[Tuple[int, int]]:
     """Implements the A* algorithm to find the shortest path from start to goal on a grid."""
     print("astar begin", start, goal)
+    print(grid)
     open_set = []
     heapq.heappush(open_set, (0, start))
     came_from: Dict[Tuple[int, int], Tuple[int, int]] = {}
@@ -26,6 +27,7 @@ def a_star(start: Tuple[int, int], goal: Tuple[int, int], grid: List[List[int]])
             return reconstruct_path(came_from, current)
 
         for neighbor in get_neighbors(current, grid):
+            print(neighbor)
             tentative_g_score = g_score[current] + 1
 
             # Debug: Neighbor and scores
